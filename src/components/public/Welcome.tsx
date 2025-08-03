@@ -1,20 +1,23 @@
 import { Button } from "@/components/ui/button";
-import Header from "./components/public/Header";
-import { ArrowDown } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
-function App() {
+import { ArrowDown } from "lucide-react";
+import Header from "./Header";
+
+function Welcome() {
   return (
     <main className="grid h-screen grid-cols-2 grid-rows-[auto_1fr_auto] gap-1 bg-slate-100">
       <header className="col-span-2 h-fit bg-blue-200">
         <Header></Header>
+        <Separator />
       </header>
 
-      <section className="flex flex-col justify-center bg-amber-200">
-        <text className="ml-5 ">
+      <article className="flex flex-col justify-center bg-amber-200">
+        <div className="ml-5 ">
           <h2 className="bg-text text-4xl">Olá, meu nome é</h2>
           <h1 className="text-6xl">André</h1>
-        </text>
-      </section>
+        </div>
+      </article>
 
       <section className="bg-purple-200 flex justify-end items-center">
         <div>
@@ -31,4 +34,4 @@ function App() {
   );
 }
 
-export default App;
+export default Welcome;
