@@ -7,9 +7,9 @@ import Header from "./Header";
 function Welcome() {
   return (
     <main className="grid h-screen grid-cols-2 grid-rows-[auto_1fr_auto] gap-1 bg-slate-100">
-      <header className="col-span-2 h-fit bg-blue-200">
+      <header className="col-span-2 h-fit bg-blue-200 flex justify-center p-2">
         <Header></Header>
-        <Separator />
+        {/* <Separator /> */}
       </header>
 
       <article className="flex flex-col justify-center bg-amber-200">
