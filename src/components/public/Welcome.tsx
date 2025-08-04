@@ -6,28 +6,39 @@ import Header from "./Header";
 
 function Welcome() {
   return (
-    <main className="grid h-screen grid-cols-2 grid-rows-[auto_1fr_auto] gap-1 bg-slate-100">
-      <header className="col-span-2 h-fit bg-blue-200 flex justify-center p-2">
+    <main className="grid h-screen grid-cols-2 grid-rows-[auto_1fr_auto] gap-1">
+      <header className="col-span-2 h-fitflex justify-center p-2">
         <Header></Header>
         {/* <Separator /> */}
       </header>
 
-      <article className="flex flex-col justify-center bg-amber-200">
-        <div className="ml-5 ">
-          <h2 className="bg-text text-4xl">Olá, meu nome é</h2>
-          <h1 className="text-6xl">André</h1>
+      <article className="flex flex-col justify-center ">
+        <div className="ml-5">
+          <p className="text-4xl font-bold tracking-tight text-balance">
+            Olá, meu nome é
+          </p>
+          <h1 className="text-6xl font-extrabold tracking-tight text-balance">
+            André
+          </h1>
         </div>
+        <p className="ml-5 pt-4 italic text">
+          Um entusiasta da{" "}
+          <mark className="bg-primary text-background p-0.5 rounded-xs">
+            computação
+          </mark>
+          .
+        </p>
       </article>
 
-      <section className="bg-purple-200 flex justify-end items-center">
+      <section className="flex justify-end items-center">
         <div>
           <img src="" alt="teste" />
         </div>
       </section>
 
-      <span className="col-span-2 flex justify-center bg-green-200">
-        <Button variant="ghost" size="icon" className="size-8">
-          <ArrowDown size={48} />
+      <span className="col-span-2 flex justify-center ">
+        <Button variant="ghost" className="p-2 size-10">
+          <ArrowDown className="animate-bounce text-muted-foreground" />
         </Button>
       </span>
     </main>

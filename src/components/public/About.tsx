@@ -4,16 +4,18 @@ import { Button } from "../ui/button";
 
 export default function AboutMe() {
   return (
-    <main className="grid grid-cols-[300px_1fr] bg-pink-200 h-[75vh]">
-      <div className="bg-red-400 p-4 flex flex-col gap-4">
+    <main className="grid grid-cols-[300px_1fr] h-[65vh] ">
+      <div className="p-4 flex flex-col gap-4 bg-sidebar rounded-es-2xl">
         <h2 className="text-2xl font-bold">Sobre mim</h2>
         <Separator />
-        <Button variant="link">Resumo</Button>
+        <Button variant="link" className="">
+          Resumo
+        </Button>
         <Button variant="link">Soft skills</Button>
         <Button variant="link">Hard skills</Button>
       </div>
-      <div className="p-4">
-        <ScrollArea className="rounded-md border p-4">
+      <div className="bg-sidebar rounded-br-2xl">
+        <ScrollArea className="p-4">
           <p>Conteúdo principal aqui.</p>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
