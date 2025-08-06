@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 import { ArrowDown } from "lucide-react";
 import Header from "./Header";
@@ -22,7 +21,7 @@ function Welcome() {
           </h1>
         </div>
         <p className="ml-5 pt-4 italic text">
-          Um entusiasta da{" "}
+          Sou um entusiasta da{" "}
           <mark className="bg-primary text-background p-0.5 rounded-xs">
             computação
           </mark>
