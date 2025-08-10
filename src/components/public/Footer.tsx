@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="grid grid-cols-2 h-[25vh] bg-amber-300">
+    <footer className="grid grid-cols-2 h-screen bg-amber-300">
       <section>
         <div>©andré</div>
         <div>
@@ -15,6 +15,22 @@ export default function Footer() {
       </section>
       <div>
         Gostaria de entrar em contato diretamente? POOOW FORMZAO COM EMAIL
+        fontes: Foto de{" "}
+        <a href="https://unsplash.com/pt-br/@lucabravo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Luca Bravo
+        </a>{" "}
+        na{" "}
+        <a href="https://unsplash.com/pt-br/fotografias/computador-portatil-cinzento-ligado-XJXWbfSo2f0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Unsplash
+        </a>
+        Foto de{" "}
+        <a href="https://unsplash.com/pt-br/@nate_dumlao?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Nathan Dumlao
+        </a>{" "}
+        na{" "}
+        <a href="https://unsplash.com/pt-br/fotografias/mixer-de-audio-preto-e-vermelho-kEOLkJksbc8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+          Unsplash
+        </a>
       </div>
     </footer>
   );

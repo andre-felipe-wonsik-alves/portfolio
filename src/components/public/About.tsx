@@ -15,13 +15,25 @@ export default function AboutMe() {
       <div className="p-4 flex flex-col gap-4 bg-sidebar rounded-es-2xl">
         <h2 className="text-2xl font-bold">Sobre mim</h2>
         <Separator />
-        <Button variant="link" onClick={() => setSelected("resumo")}>
+        <Button
+          className="cursor-pointer"
+          variant="link"
+          onClick={() => setSelected("resumo")}
+        >
           Resumo
         </Button>
-        <Button variant="link" onClick={() => setSelected("softSkills")}>
+        <Button
+          className="cursor-pointer"
+          variant="link"
+          onClick={() => setSelected("softSkills")}
+        >
           Soft skills
         </Button>
-        <Button variant="link" onClick={() => setSelected("hardSkills")}>
+        <Button
+          className="cursor-pointer"
+          variant="link"
+          onClick={() => setSelected("hardSkills")}
+        >
           Hard skills
         </Button>
       </div>

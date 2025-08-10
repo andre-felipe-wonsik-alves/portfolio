@@ -28,11 +28,11 @@ export default function Header() {
         @andre
       </span>
       <NavigationMenu className="w-full">
-        <NavigationMenuList>
+        <NavigationMenuList className="cursor-pointer">
           {headerItems.map((item) => (
-            <NavigationMenuItem key={item.label}>
+            <NavigationMenuItem key={item.label} className="cursor-pointer">
               <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent className="cursor-pointer">
                 <ul className="grid w-[250px] gap-2 p-2">
                   {item.links.map((link) => (
                     <li key={link.title}>

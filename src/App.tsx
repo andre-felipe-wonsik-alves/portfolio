@@ -18,6 +18,9 @@ export default function App() {
         </section>
         <section className="h-screen snap-start">
           <Projects />
+        </section>
+        <section className="h-screen snap-start">
+
           <Footer />
         </section>
       </div>
