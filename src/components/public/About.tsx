@@ -87,7 +87,7 @@ export default function AboutMe() {
                   variant={isActive ? "default" : "ghost"}
                   className={`w-full justify-start gap-3 p-4 h-auto transition-all duration-200 ${
                     isActive
-                      ? "bg-primary text-primary-foreground shadow-md"
+                      ? "bg-primary text-accent-foreground shadow-md font-semibold"
                       : "hover:bg-accent/50"
                   }`}
                   onClick={() => setSelected(item.key)}

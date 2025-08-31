@@ -8,7 +8,7 @@ import { ThemeProvider } from "./components/theme-provider.tsx";
 export default function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <div className="h-screen overflow-y-scroll">
+      <div className="h-screen overflow-y-scroll ">
         <section className="snap-start">
           <Welcome />
         </section>

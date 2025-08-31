@@ -349,7 +349,7 @@ export default function Footer() {
                       Enviando...
                     </motion.div>
                   ) : (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-secondary-foreground">
                       <Send size={18} />
                       Enviar Mensagem
                     </div>

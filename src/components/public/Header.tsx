@@ -46,7 +46,7 @@ export default function Header() {
 
   return (
     <motion.header
-      className="w-full pb-2 flex justify-between items-center backdrop-blur-md bg-background/80 border-b border-border/50 sticky top-0 z-50"
+      className="w-full pb-2 flex justify-between items-center backdrop-blur-md bg-background/80 sticky top-0 z-50"
       variants={headerVariants}
       initial="hidden"
       animate="visible"

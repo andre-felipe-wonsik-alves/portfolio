@@ -8,6 +8,7 @@ import {
   floatingVariants,
   itemVariants,
 } from "./types/Variants";
+import { getRandomInt } from "../../lib/utils";
 
 function Welcome() {
   const [displayedText, setDisplayedText] = useState("");
@@ -29,7 +30,6 @@ function Welcome() {
 
   return (
     <div className="relative h-screen bg-gradient-to-br from-background via-background to-accent/5 overflow-hidden">
-      {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute top-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
@@ -107,25 +107,6 @@ function Welcome() {
             </motion.mark>
             .
           </motion.p>
-
-          <motion.div className="mt-8 flex gap-4" variants={itemVariants}>
-            <motion.button
-              className="px-6 py-3 bg-primary  rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              Ver Projetos
-            </motion.button>
-            <motion.button
-              className="px-6 py-3 border border-border rounded-lg font-medium hover:bg-accent transition-colors duration-200"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              Contato
-            </motion.button>
-          </motion.div>
         </motion.article>
 
         <motion.section
@@ -134,47 +115,29 @@ function Welcome() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div
-            className="relative"
-            variants={floatingVariants}
-            animate="animate"
-          >
+          {/* NOVO: animação no fundo da tela */}
+          {[...Array(10)].map((_, i) => (
             <motion.div
-              className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-6xl md:text-8xl font-bold"
-                whileHover={{ rotate: 5 }}
-                transition={{ duration: 0.3 }}
-              >
-                ⛹🏿
-              </motion.div>
-            </motion.div>
+              key={i}
+              className="absolute w-2 h-2 bg-primary/30 rounded-full"
+              style={{
+                top: `${getRandomInt(i, 10) * getRandomInt(i, 8) + 10}%`,
+                left: `${getRandomInt(i, 10) * getRandomInt(i, 5)}%`,
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 3 + i * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.2,
+              }}
+            />
+          ))}
 
-            {/* Floating particles */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-primary/30 rounded-full"
-                style={{
-                  top: `${20 + i * 15}%`,
-                  left: `${10 + i * 12}%`,
-                }}
-                animate={{
-                  y: [-20, 20, -20],
-                  opacity: [0.3, 0.8, 0.3],
-                }}
-                transition={{
-                  duration: 3 + i * 0.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.2,
-                }}
-              />
-            ))}
-          </motion.div>
+         
         </motion.section>
 
         <motion.span

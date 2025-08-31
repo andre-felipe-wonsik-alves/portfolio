@@ -13,6 +13,8 @@ import { Separator } from "../ui/separator";
 import { ExternalLink, Github, Play } from "lucide-react";
 import photoTech from "../../assets/images/tech-code.jpg";
 import infraPhoto from "../../assets/images/infra.jpg";
+import mobilePhoto from "../../assets/images/mobile.jpg";
+import githubPhoto from "../../assets/images/github.jpg";
 
 export default function Projects() {
   const [currentProject, setCurrentProject] = useState(0);
@@ -22,27 +24,23 @@ export default function Projects() {
       id: 1,
       title: "Servidor dedicado",
       description: "Infraestrutura local para deploy de aplicações",
-      image: photoTech,
-      technologies: ["Docker", "Firewall", "Coolify", "Nginx"],
-      category: "Infra",
+      image: infraPhoto,
+      technologies: ["Docker", "Firewall", "Coolify", "Nginx", "Traefik"],
+      category: "Infraestrutura",
       status: "Concluído",
-      links: {
-        demo: "#",
-        github: "#",
-      },
     },
     {
       id: 2,
       title: "Minha biblioteca",
       description:
         "Estudo de Kotlin para construção de aplicativos Mobile. Consome API's com informações sobre a maioria dos livros catalogados no mundo.",
-      image: infraPhoto,
+      image: mobilePhoto,
       technologies: ["Kotlin", "Mobile"],
       category: "Frontend",
       status: "Concluído",
       links: {
         demo: "#",
-        github: "#",
+        github: "https://github.com/andre-felipe-wonsik-alves/bibliotecandre",
       },
     },
     {
@@ -50,41 +48,13 @@ export default function Projects() {
       title: "TrelloHub",
       description:
         "Aplicação para gerenciamento de issues e tarefas no Github. ",
-      image: photoTech,
+      image: githubPhoto,
       technologies: ["Go", "Redis", "Docker", "Kubernetes"],
       category: "Backend",
       status: "Concluído",
       links: {
         demo: "#",
-        github: "#",
-      },
-    },
-    {
-      id: 4,
-      title: "Mobile Banking App",
-      description:
-        "Aplicativo bancário mobile com biometria, transferências e investimentos.",
-      image: infraPhoto,
-      technologies: ["React Native", "TypeScript", "GraphQL"],
-      category: "Mobile",
-      status: "Em desenvolvimento",
-      links: {
-        demo: "#",
-        github: "#",
-      },
-    },
-    {
-      id: 5,
-      title: "Data Analytics Dashboard",
-      description:
-        "Dashboard interativo para análise de dados com visualizações em tempo real.",
-      image: photoTech,
-      technologies: ["Python", "Streamlit", "Pandas", "Plotly"],
-      category: "Data Science",
-      status: "Concluído",
-      links: {
-        demo: "#",
-        github: "#",
+        github: "https://github.com/andre-felipe-wonsik-alves/trellohub",
       },
     },
   ];
@@ -232,39 +202,28 @@ export default function Projects() {
                         </motion.div>
 
                         {/* Action Buttons */}
-                        <motion.div
-                          className="flex gap-4 pt-4"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.8 }}
-                        >
+                        {project?.links && (
                           <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            className="flex gap-4 pt-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.8 }}
                           >
-                            <Button
-                              size="lg"
-                              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                            <motion.div
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
                             >
-                              <Play size={18} className="mr-2" />
-                              Ver Demo
-                            </Button>
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                              >
+                                  <Github size={18} className="mr-2" />
+                                  Código
+                              </Button>
+                            </motion.div>
                           </motion.div>
-
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Button
-                              size="lg"
-                              variant="outline"
-                              className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
-                            >
-                              <Github size={18} className="mr-2" />
-                              Código
-                            </Button>
-                          </motion.div>
-                        </motion.div>
+                        )}
 
                         {/* Status */}
                         <motion.div
