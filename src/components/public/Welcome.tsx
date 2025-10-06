@@ -5,7 +5,6 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 import {
   containerVariants,
-  floatingVariants,
   itemVariants,
 } from "./types/Variants";
 import { getRandomInt } from "../../lib/utils";

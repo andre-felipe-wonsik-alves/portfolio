@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useState } from "react";
 import {
   Carousel,
@@ -10,8 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "../ui/separator";
-import { ExternalLink, Github, Play } from "lucide-react";
-import photoTech from "../../assets/images/tech-code.jpg";
+import { Github } from "lucide-react";
 import infraPhoto from "../../assets/images/infra.jpg";
 import mobilePhoto from "../../assets/images/mobile.jpg";
 import githubPhoto from "../../assets/images/github.jpg";
@@ -111,7 +110,7 @@ export default function Projects() {
           onSelect={(index: any) => setCurrentProject(index || 0)}
         >
           <CarouselContent className="ml-0">
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <CarouselItem key={project.id} className="pl-6">
                 <motion.div
                   className="relative group cursor-pointer"
