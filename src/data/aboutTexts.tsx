@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogHeader,
 } from "../components/ui/dialog";
-import infra from "../assets/images/infra.jpg";
 const todayDate = new Date();
 const initialDate = new Date("01/01/2024");
 

@@ -63,7 +63,7 @@ export default function Header() {
       <motion.div variants={itemVariants}>
         <NavigationMenu className="w-full">
           <NavigationMenuList className="cursor-pointer">
-            {headerItems.map((item, index) => (
+            {headerItems.map((item) => (
               <NavigationMenuItem key={item.label} className="cursor-pointer">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
