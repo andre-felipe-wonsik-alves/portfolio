@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { CarouselApi } from "@/components/ui/carousel"; // shadcn
 import {
   Carousel,
   CarouselContent,
@@ -15,83 +16,75 @@ import infraPhoto from "../../assets/images/infra.jpg";
 import mobilePhoto from "../../assets/images/mobile.jpg";
 import githubPhoto from "../../assets/images/github.jpg";
 
+const projects = [
+  {
+    id: 1,
+    title: "Servidor dedicado",
+    description: "Infraestrutura local para deploy de aplicações",
+    image: infraPhoto,
+    technologies: ["Docker", "Firewall", "Coolify", "Nginx", "Traefik"],
+    category: "Infraestrutura",
+    status: "Concluído",
+  },
+  {
+    id: 2,
+    title: "Minha biblioteca",
+    description:
+      "Estudo de Kotlin para construção de aplicativos Mobile. Consome API's com informações sobre a maioria dos livros catalogados no mundo.",
+    image: mobilePhoto,
+    technologies: ["Kotlin", "Mobile"],
+    category: "Frontend",
+    status: "Concluído",
+    links: {
+      demo: "#",
+      github: "https://github.com/andre-felipe-wonsik-alves/bibliotecandre",
+    },
+  },
+  {
+    id: 3,
+    title: "TrelloHub",
+    description: "Aplicação para gerenciamento de issues e tarefas no Github.",
+    image: githubPhoto,
+    technologies: ["Go", "Redis", "Docker", "Kubernetes"],
+    category: "Backend",
+    status: "Concluído",
+    links: {
+      demo: "#",
+      github: "https://github.com/andre-felipe-wonsik-alves/trellohub",
+    },
+  },
+];
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.6 },
+  },
+};
+
 export default function Projects() {
-  const [currentProject, setCurrentProject] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [current, setCurrent] = useState(0);
 
-  const projects = [
-    {
-      id: 1,
-      title: "Servidor dedicado",
-      description: "Infraestrutura local para deploy de aplicações",
-      image: infraPhoto,
-      technologies: ["Docker", "Firewall", "Coolify", "Nginx", "Traefik"],
-      category: "Infraestrutura",
-      status: "Concluído",
-    },
-    {
-      id: 2,
-      title: "Minha biblioteca",
-      description:
-        "Estudo de Kotlin para construção de aplicativos Mobile. Consome API's com informações sobre a maioria dos livros catalogados no mundo.",
-      image: mobilePhoto,
-      technologies: ["Kotlin", "Mobile"],
-      category: "Frontend",
-      status: "Concluído",
-      links: {
-        demo: "#",
-        github: "https://github.com/andre-felipe-wonsik-alves/bibliotecandre",
-      },
-    },
-    {
-      id: 3,
-      title: "TrelloHub",
-      description:
-        "Aplicação para gerenciamento de issues e tarefas no Github. ",
-      image: githubPhoto,
-      technologies: ["Go", "Redis", "Docker", "Kubernetes"],
-      category: "Backend",
-      status: "Concluído",
-      links: {
-        demo: "#",
-        github: "https://github.com/andre-felipe-wonsik-alves/trellohub",
-      },
-    },
-  ];
+  // Mantém current em sincronia com o Embla
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const titleVariants: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const carouselVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
+  // Apenas slide ativo e vizinhos serão renderizados com <img />
+  const visible = useMemo(() => {
+    const len = projects.length;
+    const prev = (current - 1 + len) % len;
+    const next = (current + 1) % len;
+    return new Set([prev, current, next]);
+  }, [current]);
 
   return (
     <motion.div
@@ -100,213 +93,158 @@ export default function Projects() {
       initial="hidden"
       animate="visible"
     >
-      <motion.main className="w-full flex-1 px-6" variants={carouselVariants}>
+      <main className="w-full flex-1 px-6">
         <Carousel
-          opts={{
-            align: "center",
-            loop: true,
-          }}
+          setApi={setApi}
+          // Dica: desligar loop corta clones (menos imagens vivas)
+          opts={{ align: "center", loop: false }}
           className="w-full max-w-7xl mx-auto"
-          onSelect={(index: any) => setCurrentProject(index || 0)}
         >
           <CarouselContent className="ml-0">
-            {projects.map((project) => (
-              <CarouselItem key={project.id} className="pl-6">
-                <motion.div
-                  className="relative group cursor-pointer"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                    {/* Project Image */}
-                    <motion.img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-[70vh] object-cover transition-transform duration-500 group-hover:scale-110"
-                      initial={{ scale: 1.1 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.8 }}
-                    />
+            {projects.map((project, index) => {
+              const isActive = index === current;
+              const shouldLoadImage = visible.has(index);
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                    {/* Project Info Overlay */}
-                    <motion.div
-                      className="absolute inset-0 flex flex-col justify-end p-8 text-white"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
+              return (
+                <CarouselItem key={project.id} className="pl-6">
+                  <div
+                    className="relative cursor-pointer"
+                    // menos wrappers "motion", use transition do CSS
+                  >
+                    <div
+                      // Evita shadow pesada em área grande; ring é barato
+                      className="relative overflow-hidden rounded-2xl ring-1 ring-white/15"
                     >
-                      <div className="space-y-4">
-                        {/* Category Badge */}
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.4, delay: 0.3 }}
-                        >
+                      {/* Imagem do projeto (virtualizada e otimizada) */}
+                      {shouldLoadImage ? (
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          loading={isActive ? "eager" : "lazy"}
+                          decoding="async"
+                          fetchPriority={isActive ? "high" : "low"}
+                          draggable={false}
+                          className="w-full h-[70vh] object-cover transition-transform duration-500 hover:scale-105 transform-gpu will-change-transform select-none"
+                          // evita reflow caro
+                          style={{ contain: "paint" }}
+                        />
+                      ) : (
+                        // Placeholder leve para manter o layout sem custo de imagem
+                        <div
+                          className="w-full h-[70vh] rounded-2xl bg-muted animate-pulse"
+                          aria-label={`Prévia de ${project.title}`}
+                        />
+                      )}
+
+                      {/* Overlay em gradiente (sem blur caro) */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
+                      {/* Info do projeto (anim mínima) */}
+                      <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
+                        <div className="space-y-4">
                           <Badge
                             variant="secondary"
-                            className="bg-primary/20 text-primary-foreground border-primary/30 backdrop-blur-sm"
+                            className="bg-white/10 text-white border-white/20"
                           >
                             {project.category}
                           </Badge>
-                        </motion.div>
 
-                        {/* Title */}
-                        <motion.h3
-                          className="text-4xl font-bold"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.4 }}
-                        >
-                          {project.title}
-                        </motion.h3>
+                          <h3 className="text-4xl font-bold">{project.title}</h3>
 
-                        {/* Description */}
-                        <motion.p
-                          className="text-lg text-gray-200 max-w-2xl leading-relaxed"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.5 }}
-                        >
-                          {project.description}
-                        </motion.p>
+                          <p className="text-lg text-gray-200 max-w-2xl leading-relaxed">
+                            {project.description}
+                          </p>
 
-                        {/* Technologies */}
-                        <motion.div
-                          className="flex flex-wrap gap-2"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.6 }}
-                        >
-                          {project.technologies.map((tech, techIndex) => (
-                            <motion.div
-                              key={tech}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.3,
-                                delay: 0.7 + techIndex * 0.1,
-                              }}
-                            >
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((tech) => (
                               <Badge
+                                key={tech}
                                 variant="outline"
-                                className="bg-white/10 text-white border-white/20 backdrop-blur-sm"
+                                className="bg-white/10 text-white border-white/20"
                               >
                                 {tech}
                               </Badge>
-                            </motion.div>
-                          ))}
-                        </motion.div>
+                            ))}
+                          </div>
 
-                        {/* Action Buttons */}
-                        {project?.links && (
-                          <motion.div
-                            className="flex gap-4 pt-4"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.8 }}
-                          >
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
+                          {project?.links && (
+                            <div className="flex gap-4 pt-4">
                               <Button
+                                asChild
                                 size="lg"
                                 variant="outline"
-                                className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                                className="bg-white/10 border-white/20 text-white hover:bg-white/20"
                               >
+                                <a
+                                  href={project.links.github}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
                                   <Github size={18} className="mr-2" />
                                   Código
+                                </a>
                               </Button>
-                            </motion.div>
-                          </motion.div>
-                        )}
+                            </div>
+                          )}
 
-                        {/* Status */}
-                        <motion.div
-                          className="flex items-center gap-2 pt-2"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.6, delay: 0.9 }}
-                        >
-                          <div
-                            className={`w-2 h-2 rounded-full ${
-                              project.status === "Concluído"
-                                ? "bg-green-400"
-                                : "bg-yellow-400"
-                            }`}
-                          />
-                          <span className="text-sm text-gray-300">
-                            {project.status}
-                          </span>
-                        </motion.div>
+                          <div className="flex items-center gap-2 pt-2">
+                            <div
+                              className={`w-2 h-2 rounded-full ${
+                                project.status === "Concluído"
+                                  ? "bg-green-400"
+                                  : "bg-yellow-400"
+                              }`}
+                            />
+                            <span className="text-sm text-gray-300">
+                              {project.status}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </motion.div>
 
-                    {/* Hover Effect Overlay */}
-                    <motion.div
-                      className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={false}
-                    />
+                      {/* Overlay hover barato (sem blur) */}
+                      <div className="absolute inset-0 bg-primary/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
                   </div>
-                </motion.div>
-              </CarouselItem>
-            ))}
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
 
-          {/* Custom Navigation */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-          >
-            <CarouselPrevious className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm" />
-            <CarouselNext className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm" />
-          </motion.div>
+          {/* Navegação */}
+          <CarouselPrevious className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
+          <CarouselNext className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
         </Carousel>
 
-        {/* Project Counter */}
-        <motion.div
-          className="flex justify-center mt-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-        >
+        {/* Paginador */}
+        <div className="flex justify-center mt-8">
           <div className="flex gap-2">
             {projects.map((_, index) => (
-              <motion.div
+              <div
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentProject ? "bg-primary w-8" : "bg-muted"
+                  index === current ? "bg-primary w-8" : "bg-muted"
                 }`}
-                whileHover={{ scale: 1.2 }}
               />
             ))}
           </div>
-        </motion.div>
-      </motion.main>
+        </div>
+      </main>
 
-      {/* Footer Section */}
+      {/* Footer */}
       <motion.footer
         className="flex flex-col items-center w-full mt-12"
-        variants={titleVariants}
+        variants={containerVariants}
       >
         <Separator className="w-full max-w-4xl mb-8" />
-        <motion.div
-          className="text-center px-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
+        <div className="text-center px-6">
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-balance bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
             Meus Projetos
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
             Uma coleção dos meus trabalhos mais recentes e significativos
           </p>
-        </motion.div>
+        </div>
       </motion.footer>
     </motion.div>
   );
