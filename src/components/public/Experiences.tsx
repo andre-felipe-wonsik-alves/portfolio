@@ -19,13 +19,16 @@ export default function Experiences() {
       id: 1,
       company: "ATLA Ensino",
       logo: atlaLogo,
-      position: "Desenvolvedor",
+      position: "Desenvolvedor e suporte ao usuário",
       period: "2023 - Presente",
       location: "Presencial",
-      description:
-        "Meu primeiro contato direto com o mercado de trabalho, teste pipipi popopo.",
-      technologies: ["React", "TypeScript", "Tailwind CSS"],
-      achievements: ["chatbots", "infraestrutura", "web design"],
+      description: "Meu primeiro contato direto com o mercado de trabalho.",
+      technologies: ["Angular", "TypeScript", "Ionic", "Langchain"],
+      achievements: [
+        "Construção de chatbots",
+        "Backups de containers rodando em um servidor com Traefik",
+        "Web design",
+      ],
     },
     {
       id: 2,
@@ -36,11 +39,11 @@ export default function Experiences() {
       location: "Campo Mourão, PR",
       description:
         "Formação acadêmica focada em desenvolvimento de software e tecnologias emergentes.",
-      technologies: ["Java", "Python", "C++", "SQL", "Git"],
+      technologies: ["C", "Python", "C++", "SQL", "Git"],
       achievements: [
         "Participação em projetos de pesquisa",
         "Desenvolvimento de aplicações acadêmicas",
-        "Colaboração em equipes multidisciplinares",
+        "Lecionamento de aulas sobre Retrieval Augmented Generation (RAG) na semana de informática",
       ],
     },
   ];

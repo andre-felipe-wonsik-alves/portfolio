@@ -299,7 +299,7 @@ export const aboutTexts = {
         {/* Frontend */}
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="group flex flex-row min-h-[7.5rem] overflow-hidden border-border/60 cursor-pointer">
+            <Card className="group flex flex-row h-full min-h-[7.5rem] overflow-hidden border-border/60 cursor-pointer">
               <div className="relative w-16 md:w-20 h-full bg-primary/10 flex items-center justify-center">
                 <Monitor className="h-3/5 w-3/5 text-primary" aria-hidden />
                 <span
